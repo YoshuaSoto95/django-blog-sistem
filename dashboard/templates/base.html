@@ -69,7 +69,7 @@
                         <a class="collapse-item" href="{% url 'dashboard:posts' %}">Posts</a>
                         <a class="collapse-item" href="{% url 'dashboard:categories' %}">Categories</a>
                         <a class="collapse-item" href="{% url 'dashboard:tags' %}">Tags</a>
-                        <a class="collapse-item" href="">View Blog</a>
+                        <a class="collapse-item" href="{% url 'web_blog:home' %}">View Blog</a>
                     </div>
                 </div>
             </li>
@@ -222,7 +222,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{% url 'accounts_security:signout' %}">Logout</a>
                 </div>
             </div>
         </div>

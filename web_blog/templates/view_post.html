@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card" style="padding: 15px; margin: 25px;">
+        <h2>{{ post.title }}</h2>
+        <h5>{{ post.subtitle }}</h5>
+        <img src="{{ post.image_main.url }}" style="width: 100%; height: 700px;">
+        <br>
+        <p>{{ post.content }}</p>
+        <div>
+            <a class="btn btn-primary" href="{% url 'web_blog:home' %}">Back</a>
+            <a href="">{{ post.categories }}</a>
+            <a href="">{{  post.tags }}</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

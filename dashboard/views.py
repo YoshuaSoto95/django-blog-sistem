@@ -2,13 +2,16 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Post, Tag, Category
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
 
 # Posts ========== #
 # =================================================================================================== #
+@login_required
 def posts(request):
     posts = Post.objects.all()
     context = {'posts': posts}
@@ -19,11 +22,13 @@ def posts(request):
 
 # Categories ========== #
 # =================================================================================================== #
+@login_required
 def categories(request):
     categories = Category.objects.all()
     context = {'categories': categories}
     return render(request, 'categories.html', context)
 
+@login_required
 def create_category(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -38,6 +43,7 @@ def create_category(request):
         messages.error(request, "Invalid request")
         return redirect('dashboard:categories')
 
+@login_required
 def update_category(request, id):
     if request.method == "POST":
         name = request.POST['name']
@@ -55,6 +61,7 @@ def update_category(request, id):
         messages.error(request, "Invalid request")
         return redirect('dashboard:categories')
 
+@login_required
 def delete_category(request, id):
     category = get_object_or_404(Category, id=id)
     category.delete()
@@ -67,11 +74,13 @@ def delete_category(request, id):
 
 # Tags ========== #
 # =================================================================================================== #
+@login_required
 def tags(request):
     tags = Tag.objects.all()
     context = {'tags': tags}
     return render(request, 'tags.html', context)
 
+@login_required
 def create_tag(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -86,6 +95,7 @@ def create_tag(request):
         messages.error(request, "Invalid request")
         return redirect('dashboard:tags')
 
+@login_required
 def update_tag(request, id):
     if request.method == "POST":
         name = request.POST['name']
@@ -102,6 +112,7 @@ def update_tag(request, id):
         messages.error(request, "Invalid request")
         return redirect('dashboard:tags')
 
+@login_required
 def delete_tag(request, id):
     tag = get_object_or_404(Tag, id=id)
     tag.delete()
@@ -113,11 +124,13 @@ def delete_tag(request, id):
 
 # Users ========== #
 # =================================================================================================== #
+@login_required
 def users(request):
     users = User.objects.all()
     context = { 'users': users }
     return render(request, 'users.html', context)
 
+@login_required
 def create_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -148,6 +161,7 @@ def create_user(request):
             return redirect('dashboard:users')
     return render(request, 'users.html')
 
+@login_required
 def update_password(request, id):
     if request.method == "POST":
         password1 = request.POST['password1']
@@ -166,6 +180,7 @@ def update_password(request, id):
         return redirect('dashboard:users')
     return render(request, 'users.html')
 
+@login_required
 def update_user(request, id):
     users = get_object_or_404(User, id=id)
     if request.method == "POST":
@@ -191,6 +206,7 @@ def update_user(request, id):
         messages.error(request, "Invalid request")
         return redirect('dashboard:users')
 
+@login_required
 def delete_user(request, id):
     user = get_object_or_404(User, id=id)
     user.delete()

@@ -1,1 +1,23 @@
-<h1>Home Blog Web</h1>
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 50px;">
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-6">
+            <div class="card" style="width: 100%; height: 100%; margin: 15px auto;">
+                <img src="{{ post.image_main.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{ post.title }}</h5>
+                  <p class="card-text">{{ post.subtitle }}</p>
+                  <p>{{ post.create_at }}</p>
+                  <a href="{% url 'web_blog:view_post' post.id %}" class="btn btn-primary">View Post</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
