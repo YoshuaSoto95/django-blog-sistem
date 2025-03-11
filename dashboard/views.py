@@ -17,6 +17,18 @@ def posts(request):
     context = {'posts': posts}
     return render(request, 'posts.html', context)
 
+@login_required
+def create_post(request):
+    return render(request, 'create_post.html')
+
+@login_required
+def delete_post(request, id):
+    posts = get_object_or_404(Post, id=id)
+    posts.delete()
+    messages.success(request, "Post deleted successfully!!!")
+    return redirect('dashboard:posts')
+    return render(request, 'posts.html')
+
 # =================================================================================================== #
 # End Posts ========== #
 
