@@ -16,38 +16,38 @@
 
 <div class="container mt-5" style="max-width: 1400px;">
     <div class="card shadow-lg p-4">
-        <h4 class="card-title text-center">Create Post</h4>
-        <form action="{% url 'dashboard:create_post' %}" method="POST" enctype="multipart/form-data">
+        <h4 class="card-title text-center">Update Post</h4>
+        <form action="{% url 'dashboard:update_post' post.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Insert Post Title" required>
+                <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}">
             </div>
 
             <div class="mb-3">
                 <label for="subtitle" class="form-label">Subtitle</label>
-                <input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="Insert Post Subtitle" required>
+                <input type="text" class="form-control" id="subtitle" name="subtitle" value="{{ post.subtitle }}">
             </div>
 
             <div class="mb-3">
                 <label for="content" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Insert Description Post"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="4">{{ post.description }}</textarea>
             </div>
 
             <div class="mb-3">
                 <label for="imagen_main" class="form-label">Imagen</label>
-                <input type="file" class="form-control" id="imagen_main" name="imagen_main" required>
+                <input type="file" class="form-control" id="imagen_main" name="imagen_main">
             </div>
 
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
-                <textarea class="form-control" id="editor" name="content" rows="4"></textarea>
+                <textarea class="form-control" id="editor" name="content" rows="4">{{ post.content|safe }}</textarea>
             </div>
 
             <div class="mb-3">
                 <label for="category_id" class="form-label">Category</label>
                 <select class="form-select" id="category_id" name="category_id">
-                    <option value="" selected>Seleccione una categoría</option>
+                    <option value="{{ post.category_id }}" selected>---- {{ post.categories }} ----</option>
                     {% for category in categories %}
                     <option value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
@@ -58,7 +58,7 @@
             <div class="mb-3">
                 <label for="tags_id" class="form-label">Tag</label>
                 <select class="form-select" id="tags_id" name="tags_id">
-                    <option value="" selected>Seleccione una categoría</option>
+                    <option value="{{ post.tags_id }}" selected>---- {{ post.tags}} ----</option>
                     {% for tag in tags %}
                     <option value="{{ tag.id }}">{{ tag.name }}</option>
                     {% endfor %}
@@ -66,7 +66,7 @@
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Publish Post</button>
+                <button type="submit" class="btn btn-warning">Update Post</button>
             </div>
         </form>
     </div>
@@ -77,4 +77,4 @@
     CKEDITOR.replace('editor');
 </script>
 
-{% endblock %}
+{% endblock%}

@@ -5,16 +5,25 @@
 <div class="container" style="padding-top: 50px;">
     <div class="row">
         {% for post in posts %}
-        <div class="col-6">
-            <div class="card" style="width: 100%; height: 100%; margin: 15px auto;">
-                <img src="{{ post.image_main.url }}" class="card-img-top" alt="...">
+        <div class="col-12">
+            <div class="card mb-3">
+                <img src="{{ post.image_main.url}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">{{ post.title }}</h5>
-                  <p class="card-text">{{ post.subtitle }}</p>
-                  <p>{{ post.create_at }}</p>
-                  <a href="{% url 'web_blog:view_post' post.id %}" class="btn btn-primary">View Post</a>
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.subtitle }}</p>
+                    <p class="card-text">{{ post.description }}</p>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div style="display: flex; justify-content: space-between; gap: 25px;">
+                                <a class="btn btn-primary" href="{% url 'web_blog:view_post' post.id %}">View Post</a>
+                                <p class="card-text pt-2"><small class="text-body-secondary">{{ post.create_at }}</small></p>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; gap: 25px;">
+                                <p class="card-text"><small class="text-body-secondary">{{ post.categories }}</small></p>
+                                <p class="card-text"><small class="text-body-secondary">{{ post.tags }}</small></p>
+                            </div>
+                        </div>
                 </div>
-            </div>
+              </div>
         </div>
         {% endfor %}
     </div>

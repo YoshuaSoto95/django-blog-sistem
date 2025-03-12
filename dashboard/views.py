@@ -19,7 +19,80 @@ def posts(request):
 
 @login_required
 def create_post(request):
-    return render(request, 'create_post.html')
+    tags_show = Tag.objects.all()
+    categories_show = Category.objects.all()
+
+    if request.method == "POST":
+        title = request.POST.get('title')
+        subtitle = request.POST.get('subtitle')
+        description = request.POST.get('description')
+        imagen_main = request.FILES.get('imagen_main')
+        content = request.POST.get('content')
+        category_id = request.POST.get('category_id')
+        tags_id = request.POST.get('tags_id')
+
+        if title and subtitle and description and imagen_main and content and category_id and tags_id:
+            categories = Category.objects.get(id=category_id)
+            tags = Tag.objects.get(id=tags_id)
+            post = Post(
+                title=title,
+                subtitle=subtitle,
+                description=description,
+                image_main=imagen_main,
+                content=content,
+                categories=categories,
+                tags=tags,
+            )
+            post.save()
+            messages.success(request, "Post created successfully")
+            return redirect('dashboard:posts')
+        else:
+            messages.error(request, "Invalid request")
+            return redirect('dashboard:create_post')
+    return render(request, 'create_post.html', {'tags': tags_show, 'categories': categories_show})
+
+@login_required
+def update_post(request, id):
+    post = get_object_or_404(Post, id=id)
+    category_show = Category.objects.all()
+    tags_show = Tag.objects.all()
+
+    if request.method == "POST":
+        title = request.POST.get('title')
+        subtitle =  request.POST.get('subtitle')
+        description = request.POST.get('description')
+        imagen_main = request.FILES.get('imagen_main', None)
+        content = request.POST.get('content')
+        category_id = request.POST.get('category_id', None)
+        tags_id = request.POST.get('tags_id', None)
+        
+        if title and subtitle and description and content:
+            
+            post.title = title
+            post.subtitle = subtitle
+            post.description = description
+
+            if imagen_main:
+                post.image_main = imagen_main
+
+            post.content = content
+
+            if category_id:
+                categories = Category.objects.get(id=category_id)
+                post.categories = categories
+
+            if tags_id:
+                tags = Tag.objects.get(id=tags_id)
+                post.tags = tags
+
+            post.save()
+            messages.success(request, "Post updated successfully")
+            return redirect('dashboard:posts')
+        else:
+            messages.error(request, "Invalid request")
+            return redirect('dashboard:posts')
+    context = { 'categories': category_show, 'tags': tags_show, 'post': post }
+    return render(request, 'update_post.html', context)
 
 @login_required
 def delete_post(request, id):
